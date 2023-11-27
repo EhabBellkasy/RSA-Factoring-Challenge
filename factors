@@ -1,33 +1,29 @@
 #!/usr/bin/python3
-import sys
+"""factorize given set of numbers in a file to product of two small numbers"""
+from sys import argv
 
-def factorize(n):
-    # Find two factors of n
-    for i in range(2, int(n**0.5) + 1):
-        if n % i == 0:
-            return i, n // i
-    # If n is prime, return n as one of the factors
-    return n, 1
 
-def main(file_path):
-    try:
-        with open(file_path, 'r') as file:
-            for line in file:
-                # Convert the line to an integer
-                n = int(line)
-                # Factorize the number
-                factor1, factor2 = factorize(n)
-                # Print the factorization
-                print(f"{n}={factor2}*{factor1}")
-    except FileNotFoundError:
-        print(f"Error: File '{file_path}' not found.")
-    except Exception as e:
-        print(f"Error: {e}")
+def factorize(number_to_check):
+    """"find two small numbers that multiply to give a given number"""
+    i = 2
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: factors <file>")
-        sys.exit(1)
+    if number_to_check < 2:
+        return
+    
+    while number_to_check % i:
+        i += 1
+    print("{:.0f}={:.0f}*{:.0f}".format(number_to_check, number_to_check / i, i))
 
-    file_path = sys.argv[1]
-    main(file_path)
+if len(argv) != 2:
+    exit()
+
+try:
+    with open(argv[1]) as file:
+        line = file.readline()
+
+        while line != "":
+            number_to_check = int(line.split('\n')[0])
+            factorize(number_to_check)
+            line = file.readline()
+except:
+    pass
